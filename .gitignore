@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.idea
+haters/
+variables.env
+old/
+
+public/oapp.js
+public/ohost.html
+public/oindex.html

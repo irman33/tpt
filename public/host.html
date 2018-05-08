@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+
+    <!-- Ensure that everything scales appropriately on a mobile device -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- Let's borrow a cool looking Font from Google -->
+    <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+	<!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container-fluid" id="gameArea">
+        <div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+					<div class="col-xs-12" id="topBody">
+						<label for="inputHostName">Name:</label>
+						<input id="inputHostName" type="text" />
+						<label for="inputRedName">Red Team Name:</label>
+						<input id="inputRedName" type="text" />
+						<label for="inputBlueName">Blue Team Name:</label>
+						<input id="inputBlueName" type="text" />
+					</div>
+					<div class="col-xs-12 buttons" id="topButton">
+						<button id="btnCreateGame" class="btn btn-frame btn-lg">Create Game</button> 
+					</div>
+				</div>
+			</div>
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				<div class="row">
+					<div class="col-xs-12">
+				
+				
+					</div>
+				</div>
+			</div>
+		</div>	
+    </div>
+
+	
+	<script id="host-join-template" type="text/template">
+		<!-- This is where the templates defined below will be used -->
+		<div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+					<div class="col-xs-12" id="topBody">
+						<label class="form-control" for="inputHostName">Name:</label>
+						<input id="inputHostName" type="text" />
+						<label for="inputRedName">Red Team Name:</label>
+						<input class="form-control" id="inputRedName" type="text" />
+						<label for="inputBlueName">Blue Team Name:</label>
+						<input class="form-control" id="inputBlueName" type="text" />
+					</div>
+					<div class="col-xs-12 buttons" id="topButton">
+						<button id="btnCreateGame" class="btn btn-frame btn-lg ">Create Game</button> 
+					</div>
+				</div>
+			</div>
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				<div class="row">
+					<div class="col-xs-12">
+				
+				
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	
+
+
+    <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
+    <script id="host-game-template" type="text/template">
+        <div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+					<div class="col-xs-12" id="topBody">
+						<div class="row">
+							<div class="col-xs-6" id="redTeamName">
+								
+							</div>
+							<div class="col-xs-6" id="blueTeamName">
+								
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6" id="redScore">
+								
+							</div>
+							<div class="col-xs-6" id="blueScore">
+								
+							</div>
+						</div>
+						<div class="row">
+						<div class="col-xs-1"></div>
+							<div class="col-xs-4" id="redScoreButtons">
+								<button id="redPlus" class="btn-frame big"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> 
+								<button id="redMinus" class="btn-frame big"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+							</div>
+							<div class="col-xs-2">
+								<select id="pointValue" class="btn-frame big">
+								  <option value="1" selected="selected">1</option>
+								  <option value="2">2</option>
+								  <option value="3">3</option>
+								  <option value="4">4</option> 
+								  <option value="5">5</option>
+								  <option value="6">6</option>
+								  <option value="8">8</option> 
+								  <option value="10">10</option>
+								</select>
+							</div>
+							<div class="col-xs-4" id="blueScoreButtons">
+								<button id="bluePlus" class="btn-frame big"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> 
+								<button id="blueMinus" class="btn-frame big"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+							</div>
+							<div class="col-xs-1"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6" id="redTeamRoster">
+								
+							</div>
+							<div class="col-xs-6" id="blueTeamRoster">
+					
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 buttons" id="topButton">
+						<button id="btnResetBuzzer" class="btn btn-frame btn-lg">Reset Buzzer</button>  
+						<div id="gameCode"></div>
+					</div>
+				</div>
+			</div>
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				<div id="gameCode"></div>
+			</div>
+		</div>
+    </script>
+
+	
+	<!-- JavaScript Libraries -->
+	
+	<!-- jQuery! -->
+    <script src="libs/jquery-2.0.2.min.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	
+
+    <!-- FastClick is used to eliminate the 300ms delay when clicking items on a mobile device
+        https://github.com/ftlabs/fastclick -->
+    <script src="libs/fastclick.js"></script>
+
+    <!-- If Socket.IO is used with Express, then the /socket.io/ path will
+        serve the proper Socket.IO javascript files used by the browser -->
+    <script src="socket.io/socket.io.js"></script>
+
+    <!-- app.js is where all the client-side Anagrammatix game logic -->
+    <script src="app.js"></script>
+
+
+</body>
+</html>

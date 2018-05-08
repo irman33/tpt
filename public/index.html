@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+
+    <!-- Ensure that everything scales appropriately on a mobile device -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- Let's borrow a cool looking Font from Google -->
+    <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+	
+	
+	<!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+
+    <link href="css/styles.css" rel="stylesheet">
+	
+</head>
+
+<body>
+
+    <div class="container-fluid" id="gameArea">
+        <!-- This is where the templates defined below will be used -->
+	       <div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+				</div>
+			</div>
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				
+			</div>
+		</div>
+    </div>
+
+
+    <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
+    <script id="index-template" type="text/template">
+		<div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+					<div class="col-xs-12" id="topBody">
+						<label for="inputGameCode">Game Code:</label>
+						<input id="inputGameCode" type="text" />
+					</div>
+					<div class="col-xs-12 buttons" id="topButton">
+						<button id="btnJoinGame" class="btn btn-frame btn-lg">Join Game</button> 
+					</div>
+				</div>
+			</div>
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				
+			</div>
+		</div>
+    </script>
+    
+    
+    <script id="join-team-template" type="text/template">
+        <div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+					<div class="col-xs-12" id="topBody">					
+						<form class="form-inline">
+							<div class="form-group">
+								<label for="inputPlayerName">Name: </label>
+								<input type="text" id="inputPlayerName" placeholder="Enter Your Name">
+							</div>
+							<label class="radio-inline">
+								<input type="radio" name="team" id="redRadio" value="red"><label for="redRadio">Red Team </label>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="team" id="blueRadio" value="blue"><label for="blueRadio">Blue Team </label>
+							</label>
+						</form>
+					</div>
+					<div class="col-xs-12 buttons" id="topButton">
+							<button id="btnJoinTeam" class="btn btn-frame btn-lg">Join Game</button>
+					</div>
+				</div>
+			</div>
+	
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				
+			</div>
+		</div>
+    </script>
+	
+	<script id="player-game-template" type="text/template">
+        <div class="row">
+			<!-----------------TOP------------------------------------>
+			<div class="col-xs-12" id="top">
+				<div class="row">
+					<div class="col-xs-12" id="title">
+						KAPLAN TPT 
+					</div>
+					<div class="col-xs-12" id="topBody">
+						<div class="row">
+							<div class="col-xs-6" id="redTeamName">
+								
+							</div>
+							<div class="col-xs-6" id="blueTeamName">
+								
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6" id="redScore">
+								
+							</div>
+							<div class="col-xs-6" id="blueScore">
+								
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-xs-6" id="redTeamRoster">
+								
+							</div>
+							<div class="col-xs-6" id="blueTeamRoster">
+					
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 buttons" id="topButton">
+					</div>
+				</div>
+			</div>
+			<!-----------------BOTTOM---------------------------->
+			<div class="col-xs-12" id="bottom">
+				<audio id="buzzerSound" src="buzzer.mp3" ></audio>
+				<button id="btnBuzzIn" class="btn btn-frame btn-lg btn-block buzz">BUZZ IN</button>
+			</div> <!--New -->	
+			
+		</div>
+    </script>
+	
+	
+	<script id="bottom-button-template" type="text/template">
+        <audio id="buzzerSound" src="buzzer.mp3" ></audio>
+        <button id="btnBuzzIn" class="btn btn-frame btn-lg btn-block buzz">BUZZ IN</button>
+    </script>
+    
+    <script id="btnJoinGameInPrgs-template" type="text/template">
+        <h4>Join game in progress: </h4>
+        <button id="btnJoinGameInPrgs" class="btn btn-frame btn-lg"></button><br><br> Or enter new game: <br><br>
+    </script>
+
+   
+
+    <!-<!-- JavaScript Libraries -->
+	
+	<!-- jQuery! -->
+    <script src="libs/jquery-2.0.2.min.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+    <!-- FastClick is used to eliminate the 300ms delay when clicking items on a mobile device
+        https://github.com/ftlabs/fastclick -->
+	<script type='application/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js'></script>
+
+    <!-- If Socket.IO is used with Express, then the /socket.io/ path will
+        serve the proper Socket.IO javascript files used by the browser -->
+    <script src="socket.io/socket.io.js"></script>
+	
+	<!-- Vibrate library -->
+	<script type="text/javascript" src="libs/jquery.vibrate.min.js"></script>
+
+    <!-- app.js is where all the client-side Anagrammatix game logic -->
+    <script src="app.js"></script>
+
+	
+</body>
+</html>
