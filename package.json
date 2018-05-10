@@ -1,6 +1,6 @@
 {
-  "name": "Anagrammatix",
-  "description": "Anagram Multiplayer Game",
+  "name": "TPT",
+  "description": "TPT Buzzer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,20 +8,13 @@
     "socket.io": "0.9",
     "csv": "~0.4.6"
   },
-  "main": "index.js",
+  "main": "tpt-server.js",
   "devDependencies": {},
   "scripts": {
-    "test": "node index.js",
-    "start": "node index.js"
+    "test": "node tpt-server.js",
+    "start": "node tpt-server.js"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/ericterpstra/anagrammatix.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ericterpstra/anagrammatix/issues"
-  },
-  "homepage": "https://github.com/ericterpstra/anagrammatix"
+    "type": "git"
+  }
 }

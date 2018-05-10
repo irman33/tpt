@@ -3,8 +3,8 @@ var gameSocket;
 var allClients = [];
 
 var fs = require('fs');
-var csvWriter = require('csv-write-stream');
-var writer = csvWriter();
+// var csvWriter = require('csv-write-stream');
+// var writer = csvWriter();
 
 /**
  *
@@ -16,7 +16,6 @@ exports.initGame = function(sio, socket){
     gameSocket = socket;
 	
 	allClients.push(gameSocket);
-	
 
     //gameSocket.emit('connected', { message: "You are connected!" });
 
@@ -42,9 +41,6 @@ exports.initGame = function(sio, socket){
 
 }
 
-
-
-
 var Games = {};
 
 
@@ -63,7 +59,6 @@ function Game (data) {
 }
 
 
-
 	/*         HOST FUNCTIONS
 	******************************* */
 
@@ -73,7 +68,6 @@ function Game (data) {
 function hostCreateNewGame(data) {
 	// A reference to the player's Socket.IO socket object
     var sock = this;
-    
     
 	console.log("Host Create New Game");
     // Create a unique Socket.IO Room
@@ -123,7 +117,7 @@ function playerJoinGame(data) {
 		sock.emit('gameJoined', data);
     } else {
         // Otherwise, send an error message back to the player.
-        this.emit('error',{message: "This Game Room does not exist."} );
+        this.emit('error',{error: 7, message: "This Game Room does not exist."} );
     }
 }
 
@@ -187,8 +181,7 @@ function resetBuzzer(data) {
 function updateScore(data) {
 	//console.log(data.gameCode);
 	//console.log(Games[data.gameCode]);
-    
-    updateScoreCsv(data.gameCode);
+    // updateScoreCsv(data.gameCode);
 	io.sockets.in(data.gameCode).emit('scoreUpdate', {redScore: Games[data.gameCode].redScore, blueScore: Games[data.gameCode].blueScore});
 }
 
@@ -239,7 +232,7 @@ function blueMinus(data){
 	}
 }
 
-function disconnect () {
+function disconnect() {
     
 	socket = this;
 	
@@ -256,12 +249,12 @@ function disconnect () {
                 
                 // destroy the room
                 console.log("error 7 Host Disconnected");
-                io.sockets.in(gameCode).emit('error',{error: 7, message: "Host ended the game."} );
+                // io.sockets.in(gameCode).emit('error',{error: 7, message: "Host ended the game."} );
                 //io.sockets.clients(gameCode).forEach(function(s){
                 //    s.leave(gameCode);
                 //});
                 // free up game memory
-                delete Games[gameCode];
+                // delete Games[gameCode];
                 
             }
 			else if(team == 'red'){
@@ -289,20 +282,17 @@ function disconnect () {
    };
 
 
-function updateScoreCsv (gameCode) {
-    console.log("Red:" + Games[gameCode].redScore +" Blue:" + Games[gameCode].blueScore);
-    var fileName ="./public/" + gameCode + "_score.csv";
-    console.log(fileName);
-    var data = [["RedTeam", "BlueTeam"],[Games[gameCode].redScore,Games[gameCode].blueScore]];
-    var writer = csvWriter({ headers: ["RedTeam", "BlueTeam"]})
-    writer.pipe(fs.createWriteStream(fileName));
-    writer.write([Games[gameCode].redScore, Games[gameCode].blueScore]);
-    writer.end();
+// function updateScoreCsv (gameCode) {
+//     console.log("Red:" + Games[gameCode].redScore +" Blue:" + Games[gameCode].blueScore);
+//     var fileName ="./public/" + gameCode + "_score.csv";
+//     console.log(fileName);
+//     var data = [["RedTeam", "BlueTeam"],[Games[gameCode].redScore,Games[gameCode].blueScore]];
+//     var writer = csvWriter({ headers: ["RedTeam", "BlueTeam"]})
+//     writer.pipe(fs.createWriteStream(fileName));
+//     writer.write([Games[gameCode].redScore, Games[gameCode].blueScore]);
+//     writer.end();
 
-}
+// }
 
-//function error(data){
-//	socket.emit('error', {message: data.message});
-//}
 
 

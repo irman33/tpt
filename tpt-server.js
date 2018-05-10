@@ -7,7 +7,7 @@ var path = require('path');
 // Create a new instance of Express
 var app = express();
 
-// Import the Anagrammatix game file.
+// Import the game file.
 var tpt = require('./tptgame');
 
 // Create a simple Express application
@@ -19,8 +19,8 @@ app.configure(function() {
     app.use(express.static(path.join(__dirname,'public')));
 });
 
-// Create a Node.js based http server on port 8080
-var server = require('http').createServer(app).listen(process.env.PORT || 80);
+// Create a Node.js based http server on port 80
+var server = require('http').createServer(app).listen(process.env.PORT || 8080);
 
 // Create a Socket.IO server and attach it to the http server
 var io = require('socket.io').listen(server);
