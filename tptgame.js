@@ -1,298 +1,388 @@
-var io;
-var gameSocket;
-var allClients = [];
-
-var fs = require('fs');
-// var csvWriter = require('csv-write-stream');
-// var writer = csvWriter();
-
-/**
- *
- * @param sio The Socket.IO library
- * @param socket The socket object for the connected client.
- */
-exports.initGame = function(sio, socket){
-    io = sio;
-    gameSocket = socket;
+$(function() {
 	
-	allClients.push(gameSocket);
-
-    //gameSocket.emit('connected', { message: "You are connected!" });
-
-    // Host Events
-    gameSocket.on('createGame', hostCreateNewGame);
+    FastClick.attach(document.body);
+ 
+     
+   // Bind fields
+     var $window = $(window);
+     var $doc = $(document);
+     
+     var $inputHostName = $('#inputHostName');
+     var $inputRedName = $('#inputRedName'); 
+     var $inputBlueName = $('#inputBlueName'); 
+     var $redTeamName = $('#redTeamName'); 
+     var $blueTeamName = $('#blueTeamName');
+     var $redScore = $('#redScore');
+     var $blueScore = $('#blueScore');
+     var $redTeamRoster = $('#redTeamRoster');
+     var $blueTeamRoster = $('#blueTeamRoster');
+     var $buzzer = $('#buzzer');
+     
+     
+     
+     var $inputGameCode = $('#inputGameCode');
+     
+     // Host Button Binds
+     $doc.on('click', '#btnCreateGame', btnCreateGame);
+     $doc.on('click', '#redPlus', redPlusClick);
+     $doc.on('click', '#redMinus', redMinusClick);
+     $doc.on('click', '#bluePlus', bluePlusClick);
+     $doc.on('click', '#blueMinus', blueMinusClick);
+     $doc.on('click', '#btnResetBuzzer', btnResetBuzzer);
+ 
+     // Player Button Binds
+     $doc.on('click', '#btnJoinGame', btnJoinGame);
+     $doc.on('click', '#btnJoinGameInPrgs', btnJoinGameInPrgs);
+     $doc.on('click', '#btnHostGameInPrgs', btnHostGameInPrgs);
+     $doc.on('click', '#btnJoinTeam', btnJoinTeam);
+     $doc.on('click', '#btnBuzzIn', btnBuzzIn);
+     
+     
+     var $gameArea = $('#gameArea');
+     var $hostGame = $('#host-game-template').html();
+     
+     var $index = $('#index-template').html();
+     var $joinTeamTemplate = $('#join-team-template').html();
+     var $playerGame = $('#player-game-template').html();
+     var $bottomButton = $('#bottom-button-template').html();
+     var $btnJoinGameInPrgsTemplate = $('#btnJoinGameInPrgs-template').html();
+     var $btnHostGameInPrgsTemplate = $('#btnHostGameInPrgs-template').html();
+     var $topButton = $('#topButton');
+ 
+     var color = {};
+     color["red"] = "#ED174F";
+     color["blue"] = "#0069AA";
+     color["default"] = "#68656E";
+     var gameCode;
+     var playerName ;
+     var team;
+     var host = false;
     
-	gameSocket.on('redPlus', redPlus);
-	gameSocket.on('redMinus', redMinus);
-	gameSocket.on('bluePlus', bluePlus);
-	gameSocket.on('blueMinus', blueMinus);
-	gameSocket.on('resetBuzzer', resetBuzzer);
-
-    // Player Events
-    gameSocket.on('joinGame', playerJoinGame);
-    gameSocket.on('joinTeam', playerJoinTeam);
-    gameSocket.on('playerBuzzedIn', playerBuzzedIn);
-	
-	
-	//Game Events
-	gameSocket.on('updateScore', updateScore);
-	gameSocket.on('updateRoster', updateRoster);
-	gameSocket.on('disconnect', disconnect);
-
-}
-
-var Games = {};
-
-
-//Defines the Poll Object
-function Game (data) {
-	this.gameCode = data.gameCode;
-	this.redTeam = [];
-	this.blueTeam = [];
-	this.redTeam[0] = data.redTeam;
-	this.blueTeam[0] = data.blueTeam;
-	this.redScore = 0;
-	this.blueScore = 0;
-	this.buzzOn = true;
-	
-	console.log(this);
-}
-
-
-	/*         HOST FUNCTIONS
-	******************************* */
-
-/**
- * The 'START' button was clicked and 'hostCreateNewGame' event occurred.
- */
-function hostCreateNewGame(data) {
-	// A reference to the player's Socket.IO socket object
-    var sock = this;
-    
-	console.log("Host Create New Game");
-    // Create a unique Socket.IO Room
-    var gameCode = ( Math.random() * 1000 ) | 0;
-    
-    data.gameCode = gameCode;
-    // Return the Room ID (gameCode) and the socket ID (mySocketId) to the browser client
-    this.emit('newGameCreated', {gameCode: data.gameCode, mySocketId: this.id, redTeam: data.redTeam, blueTeam: data.blueTeam});
-
-    // Join the Room and wait for the players
-    this.join(gameCode.toString());
-	Games[gameCode] = new Game(data);
-    
-    var i = allClients.indexOf(sock);
-	allClients[i].playerName = data.playerName;
-	allClients[i].gameCode = data.gameCode;
-	allClients[i].team = "host";  // red or blue for players, host for host.   
-};
-
-
-
-   /*     PLAYER FUNCTIONS        
-   ***************************** */
-
-/**
- * A player clicked the 'START GAME' button.
- * Attempt to connect them to the room that matches
- * the gameCode entered by the player.
- * @param data Contains data entered via player's input - playerName and gameCode.
- */
-function playerJoinGame(data) {
-
-    // A reference to the player's Socket.IO socket object
-    var sock = this;
-
-    // Look up the room ID in the Socket.IO manager object.
-    var room = gameSocket.manager.rooms["/" + data.gameCode];
-
-    // If the room exists...
-    if( room != undefined ){
-        // attach the socket id to the data object.
-        //data.mySocketId = sock.id;
-		data.blueTeam = Games[data.gameCode].blueTeam[0];
-		data.redTeam = Games[data.gameCode].redTeam[0];
-        // Join the room
-        sock.join(data.gameCode);
-		sock.emit('gameJoined', data);
-    } else {
-        // Otherwise, send an error message back to the player.
-        this.emit('error',{error: 7, message: "This Game Room does not exist."} );
-    }
-}
-
-
-function playerJoinTeam(data) {
-
-    // A reference to the player's Socket.IO socket object
-    var sock = this;
-	
-	var i = allClients.indexOf(sock);
-	allClients[i].playerName = data.playerName;
-	allClients[i].gameCode = data.gameCode;
-	
-    if (!(typeof Games[data.gameCode] == 'undefined')) {
-
-        if(data.team == "red"){
-            Games[data.gameCode].redTeam.push(data.playerName);
-            allClients[i].team = "red";
-        }
-        else if(data.team == "blue"){
-            Games[data.gameCode].blueTeam.push(data.playerName);
-            allClients[i].team = "blue";
-        }
-
-        data.redTeam = Games[data.gameCode].redTeam;
-        data.blueTeam = Games[data.gameCode].blueTeam;
-
-        // Emit an event notifying the clients that the player has joined the room.
-        sock.emit(data.gameCode).emit('teamJoined', data);
-        console.log(Games[data.gameCode]);
-    }
-    else {
-        // Otherwise, send an error message back to the player.
-        console.log("error 7 Player Join Team - Room no exist");
-        this.emit('error',{error: 7, message: "This Game Room does not exist."} );
-    }
-}
-
-
-function playerBuzzedIn(data) {
-    if (!(typeof Games[data.gameCode] == 'undefined')) {
-        if(Games[data.gameCode].buzzOn){
-            Games[data.gameCode].buzzOn = false;
-            io.sockets.in(data.gameCode).emit('buzzerOff', {playerName: data.playerName, team: data.team});
-	   }
-    }
-}
-
-function resetBuzzer(data) {
-	
-	if (!(typeof Games[data.gameCode] == 'undefined')) {
-		Games[data.gameCode].buzzOn = true;
-		io.sockets.in(data.gameCode).emit('buzzerOn', {playerName: data.playerName, team: data.team});
-	}
-	else {
-		this.emit('error',{message: "This game has ended."} );
-	}
-}
-
-
-function updateScore(data) {
-	//console.log(data.gameCode);
-	//console.log(Games[data.gameCode]);
-    // updateScoreCsv(data.gameCode);
-	io.sockets.in(data.gameCode).emit('scoreUpdate', {redScore: Games[data.gameCode].redScore, blueScore: Games[data.gameCode].blueScore});
-}
-
-function updateRoster(data) {
-	if (!(typeof Games[data.gameCode]== 'undefined')) {
-		io.sockets.in(data.gameCode).emit('rosterUpdate', {redTeam: Games[data.gameCode].redTeam, blueTeam: Games[data.gameCode].blueTeam});
-	}	
-}
-
-function redPlus (data){
-	if (!(typeof Games[data.gameCode] == 'undefined')) {
-		Games[data.gameCode].redScore += Number(data.points);
-		updateScore(data);
-	}
-	else {
-		this.emit('error',{message: "This game has ended."} );
-	}
-		
-}
-
-function redMinus (data){
-	if (!(typeof Games[data.gameCode] == 'undefined')) {
-		Games[data.gameCode].redScore -= Number(data.points);
-		updateScore(data);
-	}
-	else {
-		this.emit('error',{message: "This game has ended."} );
-	}
-}
-
-function bluePlus (data){
-	if (!(typeof Games[data.gameCode] == 'undefined')) {
-		Games[data.gameCode].blueScore += Number(data.points);
-		updateScore(data);
-	}
-	else {
-		this.emit('error',{message: "This game has ended."} );
-	}
-}
-
-function blueMinus(data){
-	if (!(typeof Games[data.gameCode] == 'undefined')) {
-		Games[data.gameCode].blueScore -= Number(data.points);
-		updateScore(data);
-	}
-	else {
-		this.emit('error',{message: "This game has ended."} );
-	}
-}
-
-function disconnect() {
-    
-	socket = this;
-	
-    var i = allClients.indexOf(socket);
-	var gameCode = allClients[i].gameCode;
-	var playerName = allClients[i].playerName;
-	var team = allClients[i].team;
-	
-	if (!(allClients[i].playerName==null) || !(allClients[i].playerName=="")) {
-		if(!(gameCode==null) || !(gameCode=="")) {
-			
-            console.log('Got disconnect:' + playerName );
-            if(team == 'host'){
-                
-                // destroy the room
-                console.log("error 7 Host Disconnected");
-                // io.sockets.in(gameCode).emit('error',{error: 7, message: "Host ended the game."} );
-                //io.sockets.clients(gameCode).forEach(function(s){
-                //    s.leave(gameCode);
-                //});
-                // free up game memory
-                // delete Games[gameCode];
-                
-            }
-			else if(team == 'red'){
-                if (!(typeof Games[gameCode] == 'undefined')) {
-                    var j = Games[gameCode].redTeam.indexOf(playerName);
-                    // Remove Player from Team Roster on Disconnect  - RedTeam
-                    Games[gameCode].redTeam.splice(j, 1);
-                }
-			}
-			else if(team == 'blue'){
-                if (!(typeof Games[gameCode] == 'undefined')) {
-                    var j = Games[gameCode].blueTeam.indexOf(playerName);
-                    // Remove Player from Team Roster on Disconnect  - BlueTeam
-                    Games[gameCode].blueTeam.splice(j, 1);
-                }
-			}
-			
-			//Remove Socket of Client on Disconnect
-			//console.log("Removed: " +  playerName);
-			allClients.splice(i, 1);
-			updateRoster({gameCode: gameCode});
-		}
-		
-	}
-   };
-
-
-// function updateScoreCsv (gameCode) {
-//     console.log("Red:" + Games[gameCode].redScore +" Blue:" + Games[gameCode].blueScore);
-//     var fileName ="./public/" + gameCode + "_score.csv";
-//     console.log(fileName);
-//     var data = [["RedTeam", "BlueTeam"],[Games[gameCode].redScore,Games[gameCode].blueScore]];
-//     var writer = csvWriter({ headers: ["RedTeam", "BlueTeam"]})
-//     writer.pipe(fs.createWriteStream(fileName));
-//     writer.write([Games[gameCode].redScore, Games[gameCode].blueScore]);
-//     writer.end();
-
-// }
-
-
-
+     
+     var socket = io.connect();
+ 
+ 
+ // {"gameCode":115,"mySocketId":"EzpOsXu415gadhW9IsUb","redTeam":"sdfsdfsd","blueTeam":"sdfsdfsdf","role":"host"}
+ 
+     var myCookie = readCookie("tptcookie");
+     if(myCookie){
+          //alert(myCookie);
+         try {
+             var data = JSON.parse(myCookie); // this is how you parse a string into JSON 
+             
+             if(data.role && data.role === 'host'){
+                 console.log("Reconnect the host");
+ 
+                 gameCode = data.gameCode;
+                 host = true;
+     
+                 $gameArea.html($index);
+                 $('#topBody').prepend($btnHostGameInPrgsTemplate);
+                 $('#btnHostGameInPrgs').html('Game: ' + gameCode + " ");
+             }else {
+                 playerName = data.playerName;
+                 gameCode = data.gameCode;
+                 team = data.team;
+     
+                 $gameArea.html($index);
+                 $('#topBody').prepend($btnJoinGameInPrgsTemplate);
+                 $('#btnJoinGameInPrgs').html(playerName + ' | Game: ' + gameCode + " ");
+             }
+ 
+             
+         } catch (ex) {
+           console.error(ex);
+         }  
+     }
+     else{
+         $gameArea.html($index);
+     }
+   
+   
+     
+     
+ // HANDLING COOKIES
+     
+     function createCookie(name,value,days) {
+         if (days) {
+             var date = new Date();
+             date.setTime(date.getTime()+(days*24*60*60*1000));
+             var expires = "; expires="+date.toGMTString();
+         }
+         else var expires = "";
+         document.cookie = name+"="+value+expires+"; path=/";
+     }
+ 
+     function readCookie(name) {
+         var nameEQ = name + "=";
+         var ca = document.cookie.split(';');
+         for(var i=0;i < ca.length;i++) {
+             var c = ca[i];
+             while (c.charAt(0)==' ') c = c.substring(1,c.length);
+             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+         }
+         return null;
+     }
+     
+     function eraseCookie(name) {
+     //createCookie(name,"",-1);
+         document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+     }
+     
+     
+     
+ // BUTTON CLICK EVENTS HOST 
+ 
+     function btnCreateGame () {
+         //console.log("BUTTON CLICKED");
+         host = true;
+         var hostName = $inputHostName.val();
+         var redTeamName = $inputRedName.val();
+         var blueTeamName = $inputBlueName.val();
+         if ( (redTeamName==null || redTeamName=="") || (blueTeamName==null || blueTeamName=="") || (hostName==null || hostName	=="") )
+          {
+           alert("Please Enter your name and both team names");
+           return false;
+           }
+         
+         socket.emit('createGame', {hostName: hostName, redTeam: redTeamName, blueTeam: blueTeamName});
+     };
+     
+     function redPlusClick() {
+         var e = document.getElementById("pointValue");
+         var points = e.options[e.selectedIndex].value;
+         console.log("Point Value:" + points);
+         socket.emit('redPlus', {gameCode: gameCode, points: points});
+     };
+     
+     function redMinusClick() {
+         var e = document.getElementById("pointValue");
+         var points = e.options[e.selectedIndex].value;
+         console.log("Point Value:" + points);
+         socket.emit('redMinus', {gameCode: gameCode, points: points});	
+     };
+     
+ 
+     function bluePlusClick() {
+         var e = document.getElementById("pointValue");
+         var points = e.options[e.selectedIndex].value;
+         console.log("Point Value:" + points);
+         socket.emit('bluePlus', {gameCode: gameCode, points: points});	
+     };
+     
+     
+     function blueMinusClick() {
+         var e = document.getElementById("pointValue");
+         var points = e.options[e.selectedIndex].value;
+         console.log("Point Value:" + points);
+         socket.emit('blueMinus', {gameCode: gameCode, points: points});
+     };
+     
+     function btnResetBuzzer () {
+         socket.emit('resetBuzzer', {gameCode: gameCode});
+     }
+ 
+     
+     
+ //  BUTTON CLICK EVENTS PLAYER 
+ 
+     function btnJoinGame () {
+         gameCode = document.getElementById("inputGameCode").value; 
+         socket.emit('joinGame', {gameCode: gameCode});
+     }
+     
+     function btnHostGameInPrgs (data) {
+         try {
+             var data = JSON.parse(myCookie); // this is how you parse a string into JSON 
+             gameCode = data.gameCode;
+             host = true;
+         } catch (ex) {
+           console.error(ex);
+         }
+         
+         socket.emit('hostRejoinGame', {gameCode: gameCode});
+     }	
+     function btnJoinGameInPrgs (data) {
+         try {
+             var data = JSON.parse(myCookie); // this is how you parse a string into JSON 
+             playerName = data.playerName;
+             gameCode = data.gameCode;
+             team = data.team;
+   
+             $gameArea.html($index);
+             $('#topBody').prepend($btnJoinGameInPrgsTemplate);
+             $('#btnJoinGameInPrgs').html(playerName + ' | Game: ' + gameCode + " ");
+         } catch (ex) {
+           console.error(ex);
+         }
+         
+         socket.emit('joinGame', {gameCode: gameCode});
+         socket.emit('joinTeam', {gameCode: gameCode, playerName: playerName, team: team});
+     }	
+     
+     function btnJoinTeam () {
+         playerName = document.getElementById("inputPlayerName").value;
+         
+         if ((playerName == null || playerName==""))
+         {
+           alert("Please enter your Name");
+           return false;
+         }
+         
+         // THIS NEED FIXING
+         if(document.getElementById("redRadio").checked)
+             team = "red";
+         else if (document.getElementById("blueRadio").checked)
+             team = "blue";
+         else {
+             alert("Please Select your team");
+             return false;
+         }
+         
+     //create cookie
+         var data = {
+             gameCode: gameCode,
+             playerName: playerName,
+             team: team, 
+             role: 'player'
+         };
+ 
+         createCookie("tptcookie", JSON.stringify(data), 1);
+         
+         socket.emit('joinTeam', {playerName: playerName, team: team, gameCode: gameCode});
+     }
+     
+     function btnBuzzIn () {
+         socket.emit('playerBuzzedIn', {playerName: playerName, team: team, gameCode: gameCode});
+     }
+     
+     function teamJoined (data){
+         $gameArea.html($playerGame);
+         
+         $('#redTeamName').html(data.redTeam[0]);	
+         $('#blueTeamName').html(data.blueTeam[0]);	
+                 
+         updateScore({gameCode: data.gameCode});
+         updateRoster({gameCode: data.gameCode});
+         
+     }
+     
+     
+ // FUNCTIONS
+     function updateScore(data){
+         socket.emit("updateScore", {gameCode: data.gameCode});		
+     };
+     
+     
+     function updateRoster(data){
+         socket.emit("updateRoster", {gameCode: data.gameCode});		
+     };
+     
+ 
+     
+ // SOCKET EVENTS
+ 
+ 
+ // Whenever the server emits 'newGameCreated'
+     socket.on('newGameCreated', function (data) {
+         gameCode = data.gameCode;
+         
+         $gameArea.html($hostGame);
+         $('#redTeamName').html(data.redTeam);	
+         $('#blueTeamName').html(data.blueTeam);	
+         $('#gameCode').html("Game Code: " + data.gameCode);	
+         
+         updateScore({gameCode: data.gameCode});
+         updateRoster({gameCode: data.gameCode});
+         
+         //create cookie
+         data.role = "host";
+         createCookie("tptcookie", JSON.stringify(data), 1);
+         
+     });
+ 
+   
+     socket.on('hostRejoined', function (data) {
+         $gameArea.html($hostGame);
+         $('#redTeamName').html(data.redTeam);	
+         $('#blueTeamName').html(data.blueTeam);	
+         $('#gameCode').html("Game Code: " + data.gameCode);	
+         
+         updateScore({gameCode: data.gameCode});
+         updateRoster({gameCode: data.gameCode});
+         
+     });
+ 
+     socket.on('scoreUpdate', function (data) {
+         $('#redScore').html(data.redScore);	
+         $('#blueScore').html(data.blueScore);
+     });
+     
+     socket.on('rosterUpdate', function (data) {
+         var $redRoster= '';
+         var $blueRoster= '';
+         
+         for(i=1; i<data.redTeam.length; i++){
+             $redRoster += (data.redTeam[i] + "<br>");
+         }
+         
+         for(j=1; j<data.blueTeam.length; j++){
+             $blueRoster += (data.blueTeam[j] + "<br>");
+         }
+         
+         $('#redTeamRoster').html($redRoster);	
+         $('#blueTeamRoster').html($blueRoster);
+         
+     });
+ 
+     socket.on('gameJoined', function (data){
+         //console.log("Joined GAME" + data);
+         $gameArea.html($joinTeamTemplate);
+         
+         $('label[for=redRadio]').html(data.redTeam);
+         $('label[for=blueRadio]').html(data.blueTeam);
+ 
+     });
+     
+     socket.on('teamJoined', function (data){
+         //console.log("Joined GAME" + data);
+         teamJoined(data);
+     });
+     
+     
+     socket.on('buzzerOff', function (data){
+         var $bot = document.getElementById("bottom");
+         var audio = new Audio('buzzer.mp3');
+         audio.play();
+         $bot.innerHTML = data.playerName + "!";
+         $bot.style.background = color[data.team];
+         
+     });
+     
+     socket.on('buzzerOn', function (data){
+         var $bot = document.getElementById("bottom");
+         $bot.style.background = color["default"];
+         if(host){
+             $bot.innerHTML = '';
+         }
+         else if (!(playerName == null || playerName=="")) {
+             $bot.innerHTML = $bottomButton;
+         }
+     });
+     
+     socket.on('error', function (data) {
+         if(data.error == 7){
+             eraseCookie("tptcookie");
+             window.location.reload();
+             alert(data.message);
+             
+         }
+         else{
+             alert(data.message);
+         }
+     });
+     
+     
+ });
+ 
+ 
