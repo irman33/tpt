@@ -21,6 +21,7 @@ exports.initGame = function(sio, socket){
 
     // Host Events
     gameSocket.on('createGame', hostCreateNewGame);
+    gameSocket.on('hostRejoinGame', hostRejoinGame);
     
 	gameSocket.on('redPlus', redPlus);
 	gameSocket.on('redMinus', redMinus);
@@ -86,6 +87,32 @@ function hostCreateNewGame(data) {
 	allClients[i].gameCode = data.gameCode;
 	allClients[i].team = "host";  // red or blue for players, host for host.   
 };
+
+/* Host has disconnected and is now rejoining via saved cookie.
+* @param data Contains gameCode.
+*/
+function hostRejoinGame(data) {
+
+   // A reference to the host's Socket.IO socket object
+   var sock = this;
+
+   // Look up the room ID in the Socket.IO manager object.
+   var room = gameSocket.manager.rooms["/" + data.gameCode];
+
+   // If the room exists...
+   if( room != undefined ){
+       // attach the socket id to the data object.
+       //data.mySocketId = sock.id;
+    //    data.blueTeam = Games[data.gameCode].blueTeam[0];
+    //    data.redTeam = Games[data.gameCode].redTeam[0];
+       // Join the room
+       sock.join(data.gameCode);
+       sock.emit('hostRejoined', data);
+   } else {
+       // Otherwise, send an error message back to the player.
+       this.emit('error',{error: 7, message: "This Game Room does not exist."} );
+   }
+}
 
 
 
