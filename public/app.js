@@ -50,9 +50,9 @@ $(function() {
 	 var $topButton = $('#topButton');
  
 	 var color = {};
-	 color["red"] = "#ED174F";
-	 color["blue"] = "#0069AA";
-	 color["default"] = "#68656E";
+	 color["red"] = "#ee1010";
+	 color["blue"] = "#1b5acf";
+	 color["default"] = 'url("../img/ktp-pattern-community-specific-pc.png") center;';
 	 var gameCode;
 	 var playerName ;
 	 var team;
@@ -77,16 +77,16 @@ $(function() {
 				 host = true;
 	 
 				 $gameArea.html($index);
-				 $('#topBody').prepend($btnHostGameInPrgsTemplate);
-				 $('#btnHostGameInPrgs').html('Game: ' + gameCode + " ");
+				 $('#bottom').prepend($btnHostGameInPrgsTemplate);
+				 $('#btnHostGameInPrgs').html('Rejoin Game: ' + gameCode + " ");
 			 }else {
 				 playerName = data.playerName;
 				 gameCode = data.gameCode;
 				 team = data.team;
 	 
 				 $gameArea.html($index);
-				 $('#topBody').prepend($btnJoinGameInPrgsTemplate);
-				 $('#btnJoinGameInPrgs').html(playerName + ' | Game: ' + gameCode + " ");
+				 $('#bottom').prepend($btnJoinGameInPrgsTemplate);
+				 $('#btnJoinGameInPrgs').html('Rejoin Game: ' + gameCode + " ");
 			 }
  
 			 
@@ -323,11 +323,11 @@ $(function() {
 		 var $blueRoster= '';
 		 
 		 for(i=1; i<data.redTeam.length; i++){
-			 $redRoster += (data.redTeam[i] + "<br>");
+			 $redRoster += `<li>${data.redTeam[i]}</li>`;
 		 }
 		 
 		 for(j=1; j<data.blueTeam.length; j++){
-			 $blueRoster += (data.blueTeam[j] + "<br>");
+			 $blueRoster += `<li>${data.blueTeam[j]}</li>`;
 		 }
 		 
 		 $('#redTeamRoster').html($redRoster);	
@@ -354,14 +354,14 @@ $(function() {
 		 var $bot = document.getElementById("bottom");
 		 var audio = new Audio('buzzer.mp3');
 		 audio.play();
-		 $bot.innerHTML = data.playerName + "!";
+		 $bot.innerHTML = `<span>${data.playerName}!</span>`;
 		 $bot.style.background = color[data.team];
-		 
 	 });
 	 
 	 socket.on('buzzerOn', function (data){
 		 var $bot = document.getElementById("bottom");
-		 $bot.style.background = color["default"];
+		//  $bot.style.background = color["default"];
+		 $bot.style.background = null;
 		 if(host){
 			 $bot.innerHTML = '';
 		 }

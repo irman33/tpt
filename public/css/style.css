@@ -1,0 +1,533 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body {
+    font-family: 'Open+Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    color: white;
+    background: linear-gradient(75deg,#590e76,#1e0576 17%,#1e0576 72%,#1e509d);
+
+    
+}
+ol, ul {
+	list-style: none;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.game {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    width: 100%;
+    height: 100vh;
+
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 65vh;
+    /* background: url("../img/ktp-background12.png"); */
+    background:  rgba(6,81,211,1);
+    background: linear-gradient(135deg, rgb(34, 18, 115) 0%, rgba(6,81,211,1) 100%);
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    height: 80px;
+    width: 100%;
+    background: rgba(255,255,255, .2);
+}
+
+.header img, .spacer {
+    height: 80px;
+    width: 80px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.body {
+    position: relative;
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 35vh;
+    background: url("../img/ktp-pattern-community-specific-pc.png") center;
+}
+
+.bottom span {
+    margin: auto;
+    font-family: "Quicksand", sans-serif;
+    font-size: 100px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.scoreboard {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.vs {
+    margin: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+}
+
+
+.teams {
+    margin: auto;
+    display: flex;
+    height: 3em;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    font-size: 1.5em;
+    line-height: 2em;
+    white-space: nowrap;
+    background-color: #005de8;
+    color: #fff;
+    box-shadow: 0px 17px 46px -10px #313131;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.teams.red {
+    background: #ee1010;
+    align-self: flex-start;
+}
+
+.teams.blue {
+    background: #1b5acf;
+    align-self: flex-end;
+}
+
+.team-name {
+    margin: auto;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 1.2em;
+    overflow: hidden;
+}
+
+.scores {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-width: 100px;
+    height: 60px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    font-size: 3em;
+    background: white;
+    text-align: center;
+}
+
+.score.red {
+    background: #ee1010;
+    border-radius:  0 0 15px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0px 17px 46px -10px #313131;
+}
+.score.blue {
+    background: #1b5acf;
+    border-radius: 15px 15px 0 0;
+    margin-top: 20px;
+}
+
+.score-buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+.score-buttons.red{
+    margin-bottom: 10px;
+}
+
+.score-buttons.blue{
+    margin-top: 25px;
+} 
+
+.rosters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 5px 50px;
+    text-align: center;
+}
+
+.roster {
+    flex: 1;
+}
+
+
+.game-code {
+    position: absolute;
+    right: 10px;
+    top: -50px;
+    font-size: 1.2em;
+    font-weight: 600;
+    font-family: "Quicksand", sans-serif;
+    color: rgba(255, 255, 255, 0.4);
+
+}
+
+.btn {
+    display: inline-block;
+    margin: 20px auto;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 11px 24px;
+    border-radius: 50px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+    line-height: 21px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn:hover, .btn:focus {
+    background-color: #fff;
+    border: 2px solid #fff;
+    color: #240f6e;
+    text-decoration: none;   
+}
+
+.btn:active {
+    background-color: transparent;
+    border: 0;
+}
+
+.btn-small {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 0;
+    font-size: 1.3rem;
+    text-align: center;
+    border-radius: 0;
+    font-weight: 700;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-small:hover, .btn-small:focus {
+    border: 0;
+    font-weight: auto;
+    
+}
+
+.btn-select {
+    padding: 0;
+    padding-left: 10px;
+}
+
+.btn-select:active, .btn-select:focus {
+    border: 2px solid #fff;
+}
+
+.btn-buzz {
+    position: relative;
+    display: block;
+    margin: auto;
+    height: 60%;
+    width: 60%;
+    font-size: 5em;
+    color: #1e0576;
+    background: white;
+    border: 0;
+    border-radius: 50px;
+	box-shadow: 0px 17px 46px -10px #313131, inset 0px 4px 1px 1px white, inset 0px -10px 5px 1px rgba(204,198,197,.8);
+}
+
+.btn-buzz:hover{
+    border: 0;
+}
+
+.btn-buzz:active {
+    background: white;
+    transform: scale(.9);
+}
+
+
+label {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+
+input[type=text] {
+    display: block;
+    margin: 5px auto;
+    margin-bottom: 10px;
+    width: 300px;
+    height: 40px; 
+    border: 0;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 1.25em;
+    background-color: #fff;
+    color: #1e0576;
+}
+
+
+.radio-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 5px auto;
+    overflow: hidden;
+}
+
+.radio--title {
+    margin: 0 auto;
+}
+
+.radio--buttons  {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-wrapper input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+  
+.radio-wrapper label {
+    margin: 5px auto;
+    display: inline-block;
+    width: auto;
+    min-width: 300px;
+    height: 40px; 
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.25em;
+    font-weight: normal;
+    text-align: center;
+    text-shadow: none;
+    padding: 11px 5px;
+    border-radius: 50px;
+    overflow: hidden;
+    line-height: 25px;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition:    all 0.1s ease-in-out;
+    -ms-transition:     all 0.1s ease-in-out;
+    -o-transition:      all 0.1s ease-in-out;
+    transition:         all 0.1s ease-in-out;
+}
+  
+.radio-wrapper label:hover {
+    cursor: pointer;
+}
+  
+.radio-wrapper input:checked + label {
+    color: white;
+    padding: 9px 5px;
+    border: 2px white solid;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+  
+.radio-wrapper label:first-of-type {
+    background-color: #ee1010;
+}
+  
+.radio-wrapper label:last-of-type {
+     background-color: #1b5acf;
+}
+
+
+@media only screen and (max-width: 850px) {
+    .body{
+        margin-top: 30px;
+    }    
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .header{
+        height: 60px;
+        width: 100%;
+        background: rgba(255,255,255, .2);
+    }
+    
+    .header img, .spacer {
+        height: 60px;
+        width: 60px;
+    }
+    
+    .game-code {
+        top: -25px;    
+        font-size: 1em;
+    }
+
+    .teams {
+        padding: 0 5px;
+        height: 3em;
+        font-size: 1em;
+    }
+
+    .score {
+        min-width: 80px;
+        height: 50px;
+        font-size: 2em;
+    }
+
+    .score.red {
+        margin-bottom: 15px;
+    }
+
+    .score.blue {
+        margin-top: 15px;
+    }
+
+    .score-buttons.red, .score-buttons.blue{
+        margin: 0;
+    }
+
+    .btn-buzz { 
+        font-size: 2.8em;
+        border-radius: 30px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .body{
+        margin-top: 30px;
+    }    
+
+    h1 {
+        font-size: 1.6em;
+    }
+
+    .header{
+        height: 60px;
+        width: 100%;
+        background: rgba(255,255,255, .2);
+    }
+    
+    .header img, .spacer {
+        height: 60px;
+        width: 60px;
+    }
+    
+    .game-code {
+        top: -25px;    
+        font-size: 1em;
+    }
+
+    .teams {
+        padding: 0 5px;
+        height: 2.2em;
+        line-height: 1.5em;
+        font-size: 1em;
+    }
+
+    .score {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        min-width: 80px;
+        height: 40px;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 600;
+        font-size: 2em;
+    }
+
+    .score.red {
+        margin-bottom: 15px;
+    }
+
+    .score.blue {
+        margin-top: 15px;
+    }
+
+    .score-buttons.red, .score-buttons.blue{
+        margin: 0;
+    }
+
+    .btn {
+        margin: auto;
+    }
+    
+    .btn-buzz {
+        font-size: 2.3em;
+    }
+
+}

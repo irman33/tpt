@@ -13,150 +13,146 @@
 	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.css" rel="stylesheet">
 
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 	
 </head>
 
 <body>
 
-    <div class="container-fluid" id="gameArea">
-        <!-- This is where the templates defined below will be used -->
-	       <div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
-					</div>
-				</div>
-			</div>
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				
-			</div>
-		</div>
+    <div class="game" id="gameArea">
+        <div class="top" id="top">
+            <div class="header">
+                <img class="logo" src="./img/k-caret.png" alt="Klogo">
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+        </div>
+        <div class="bottom" id="bottom">
+        </div>
     </div>
 
 
     <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
     <script id="index-template" type="text/template">
-		<div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
-					</div>
-					<div class="col-xs-12" id="topBody">
-						<label for="inputGameCode">Game Code:</label>
-						<input id="inputGameCode" type="text" />
-					</div>
-					<div class="col-xs-12 buttons" id="topButton">
-						<button id="btnJoinGame" class="btn btn-frame btn-lg">Join Game</button> 
-					</div>
-				</div>
-			</div>
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				
-			</div>
-		</div>
+		<div class="top" id="top">
+            <div class="header">
+                <div class="logo">
+                    <img src="./img/k-caret.png" alt="Klogo" height="60" width="60">
+                </div>
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div id="topBody" class="body">
+                <div class="form">
+                    <label for="gameCode">Game Code:</label>
+                    <input type="text" id="inputGameCode" name="gameCode" placeholder="Enter Game Code">
+                </div>
+                
+                <button id="btnJoinGame" class="btn btn-primary">Join Game</button>
+            </div>
+        </div>
+        <div class="bottom" id="bottom">  
+        </div>
     </script>
     
     
     <script id="join-team-template" type="text/template">
-        <div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
-					</div>
-					<div class="col-xs-12" id="topBody">					
-						<form class="form-inline">
-							<div class="form-group">
-								<label for="inputPlayerName">Name: </label>
-								<input type="text" id="inputPlayerName" placeholder="Enter Your Name">
-							</div>
-							<label class="radio-inline">
-								<input type="radio" name="team" id="redRadio" value="red"><label for="redRadio">Red Team </label>
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="team" id="blueRadio" value="blue"><label for="blueRadio">Blue Team </label>
-							</label>
-						</form>
-					</div>
-					<div class="col-xs-12 buttons" id="topButton">
-							<button id="btnJoinTeam" class="btn btn-frame btn-lg">Join Game</button>
-					</div>
-				</div>
-			</div>
-	
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				
-			</div>
-		</div>
+        <div class="top" id="top">
+            <div class="header">
+                <div class="logo">
+                    <img src="./img/k-caret.png" alt="Klogo" height="60" width="60">
+                </div>
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div id="topBody" class="body">
+                <div class="form">
+                    <label for="name">Player Name:</label>
+                    <input type="text" id="inputPlayerName" name="name" placeholder=" Enter Name">
+                    <div class="radio-wrapper">
+                        <div class="radio--title">Select Your Team:</div>
+                        <div class="radio--buttons">
+                            <input type="radio" id="redRadio" name="team" value="red"/>
+                            <label for="redRadio">Really Long Name</label>
+                            <input type="radio" id="blueRadio" name="team" value="blue" />
+                            <label for="blueRadio">Second long name here</label>
+                        </div>
+                    </div>
+                </div>
+                <button id="btnJoinTeam" type="submit" class="btn">Join Game</button>
+            </div>
+        </div>
+        <div class="bottom" id="bottom">
+        </div>
     </script>
 	
 	<script id="player-game-template" type="text/template">
-        <div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
+        <div class="top" id="top">
+            <div class="header">
+                <img class="logo" src="./img/k-caret.png" alt="Klogo">
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div id="topBody" class="body">
+                <div class="scoreboard">
+                    <div class="teams red">
+                        <div id="redTeamName" class="team-name"></div>
+                    </div>
+                    <div class="scores">
+                        <div id="redScore" class="score red"></div>
+                        <div class="vs"> VS </div>
+                        <div id="blueScore" class="score blue"></div>
+                    </div>
+                    <div class="teams blue">
+                        <div id="blueTeamName" class="team-name"></div>
 					</div>
-					<div class="col-xs-12" id="topBody">
-						<div class="row">
-							<div class="col-xs-6" id="redTeamName">
-								
-							</div>
-							<div class="col-xs-6" id="blueTeamName">
-								
-							</div>
+					<div class="rosters">
+						<div class="roster red">
+							<ul id="redTeamRoster">
+								<li>Hello</li>
+								<li>Testin</li>
+								<li>Bob</li>
+								<li>Player1</li>
+							</ul>
 						</div>
-						<div class="row">
-							<div class="col-xs-6" id="redScore">
-								
-							</div>
-							<div class="col-xs-6" id="blueScore">
-								
-							</div>
+						<div class="roster blue">
+							<ul id="blueTeamRoster">
+								<li>Hello</li>
+								<li>Testin</li>
+								<li>Bob</li>
+								<li>Player1 ahemtovic</li>
+							</ul>
 						</div>
-						
-						<div class="row">
-							<div class="col-xs-6" id="redTeamRoster">
-								
-							</div>
-							<div class="col-xs-6" id="blueTeamRoster">
-					
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-xs-12 buttons" id="topButton">
 					</div>
 				</div>
-			</div>
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				<audio id="buzzerSound" src="buzzer.mp3" ></audio>
-				<button id="btnBuzzIn" class="btn btn-frame btn-lg btn-block buzz">BUZZ IN</button>
-			</div> <!--New -->	
-			
-		</div>
+            </div>
+        </div>
+        <div class="bottom" id="bottom">
+            <audio id="buzzerSound" src="buzzer.mp3" ></audio>
+            <button id="btnBuzzIn" class="btn btn-buzz">BUZZ IN</button>
+        </div>
     </script>
 	
 	
 	<script id="bottom-button-template" type="text/template">
-        <audio id="buzzerSound" src="buzzer.mp3" ></audio>
-        <button id="btnBuzzIn" class="btn btn-frame btn-lg btn-block buzz">BUZZ IN</button>
+		<audio id="buzzerSound" src="buzzer.mp3" ></audio>
+		<button id="btnBuzzIn" class="btn btn-buzz">BUZZ IN</button>
+    </script>
+	
+	<script id="bottom-buzzed-in-template" type="text/template">
+		<h1 class="buzzed-in"></h1>
     </script>
     
     <script id="btnJoinGameInPrgs-template" type="text/template">
-        <h4>Join game in progress: </h4>
-        <button id="btnJoinGameInPrgs" class="btn btn-frame btn-lg"></button><br><br> Or enter new game: <br><br>
+        <button id="btnJoinGameInPrgs" class="btn"></button>
     </script>
 
    

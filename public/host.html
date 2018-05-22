@@ -11,158 +11,146 @@
 	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.css" rel="stylesheet">
 
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="container-fluid" id="gameArea">
-        <div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
-					</div>
-					<div class="col-xs-12" id="topBody">
-						<label for="inputHostName">Name:</label>
-						<input id="inputHostName" type="text" />
-						<label for="inputRedName">Red Team Name:</label>
-						<input id="inputRedName" type="text" />
-						<label for="inputBlueName">Blue Team Name:</label>
-						<input id="inputBlueName" type="text" />
-					</div>
-					<div class="col-xs-12 buttons" id="topButton">
-						<button id="btnCreateGame" class="btn btn-frame btn-lg">Create Game</button> 
-					</div>
-				</div>
-			</div>
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				<div class="row">
-					<div class="col-xs-12">
-				
-				
-					</div>
-				</div>
-			</div>
-		</div>	
+    <div class="game" id="gameArea">
+        <div class="top" id="top">
+            <div class="header">
+                <div class="logo">
+                    <img src="./img/k-caret.png" alt="Klogo" height="60" width="60">
+                </div>
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div id="topBody" class="body">
+                <div class="form">
+                        <label for="hostName">Host Name:</label>
+                        <input type="text" id="inputHostName" name="hostName"  placeholder="Host Name"/>
+                        <label for="redTeamName">Red Team Name:</label>
+                        <input type="text" id="inputRedName" name="redTeamName"  placeholder="Red Team"/>
+                        <label for="blueTeamName">Blue Team Name:</label>
+                        <input type="text" id="inputBlueName" name="blueTeamName" placeholder="Blue Team"/>
+                </div>
+                <button id="btnCreateGame" class="btn">Create Game</button>
+                
+            </div>
+        </div>
+        <div class="bottom" id="bottom">
+            
+        </div>
     </div>
 
 	
+	<!-- Host Create game Template -->
 	<script id="host-join-template" type="text/template">
-		<!-- This is where the templates defined below will be used -->
-		<div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
-					</div>
-					<div class="col-xs-12" id="topBody">
-						<label class="form-control" for="inputHostName">Name:</label>
-						<input id="inputHostName" type="text" />
-						<label for="inputRedName">Red Team Name:</label>
-						<input class="form-control" id="inputRedName" type="text" />
-						<label for="inputBlueName">Blue Team Name:</label>
-						<input class="form-control" id="inputBlueName" type="text" />
-					</div>
-					<div class="col-xs-12 buttons" id="topButton">
-						<button id="btnCreateGame" class="btn btn-frame btn-lg ">Create Game</button> 
-					</div>
-				</div>
-			</div>
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				<div class="row">
-					<div class="col-xs-12">
-				
-				
-					</div>
-				</div>
-			</div>
-		</div>
+		<div class="top" id="top">
+            <div class="header">
+                <div class="logo">
+                    <img src="./img/k-caret.png" alt="Klogo" height="60" width="60">
+                </div>
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div id="topBody" class="body">
+                <div class="form">
+                        <label for="hostName">Host Name:</label>
+                        <input type="text" id="inputHostName" name="hostName"  placeholder="Host Name"/>
+                        <label for="redTeamName">Red Team Name:</label>
+                        <input type="text" id="inputRedName" name="redTeamName"  placeholder="Red Team"/>
+                        <label for="blueTeamName">Blue Team Name:</label>
+                        <input type="text" id="inputBlueName" name="blueTeamName" placeholder="Blue Team"/>
+                </div>
+                <button id="btnCreateGame" class="btn">Create Game</button>
+                
+            </div>
+        </div>
+        <div class="bottom" id="bottom">
+            
+        </div>
 	</script>
 	
 
 
     <!-- This scrreen appears when a player clicks "JOIN" on the Title Screen -->
     <script id="host-game-template" type="text/template">
-        <div class="row">
-			<!-----------------TOP------------------------------------>
-			<div class="col-xs-12" id="top">
-				<div class="row">
-					<div class="col-xs-12" id="title">
-						KAPLAN TPT 
+		<div class="top" id="top">
+            <div class="header">
+                <img class="logo" src="./img/k-caret.png" alt="Klogo">
+                <div class="title ">
+                    <h1>KAPLAN TPT</h1>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div id="topBody" class="body">
+                <div id="gameCode" class="game-code">
+                    Game Code: 356
+                </div>
+                <div class="scoreboard">
+                    <div class="teams red">
+                        <div id="redTeamName" class="team-name"></div>
+                    </div>
+                    <div class="scores">
+                        <div class="score-buttons red">
+                            <button id="redPlus" class="btn btn-small"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> 
+                            <button id="redMinus" class="btn btn-small"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                        </div>
+                        <div id="redScore" class="score red"></div>
+                        <div class="vs"> VS </div>
+                        <div id="blueScore" class="score blue"></div>
+                        <div class="score-buttons blue">
+                            <button id="bluePlus" class="btn btn-small"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> 
+                            <button id="blueMinus" class="btn btn-small"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                        </div>
+                    </div>
+                    <div class="teams blue">
+                        <div id="blueTeamName" class="team-name"></div>
+                    </div>
+                    <div class="rosters">
+						<div class="roster red">
+							<ul id="redTeamRoster">
+								<li>Hello</li>
+								<li>Testin</li>
+								<li>Bob</li>
+								<li>Player1</li>
+							</ul>
+						</div>
+						<select id="pointValue" class="btn btn-select">
+							<option value="1" selected="selected">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option> 
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="8">8</option> 
+							<option value="10">10</option>
+						</select>
+						<div class="roster blue">
+							<ul id="blueTeamRoster">
+								<li>Hello</li>
+								<li>Testin</li>
+								<li>Bob</li>
+								<li>Player1 ahemtovic</li>
+							</ul>
+						</div>
 					</div>
-					<div class="col-xs-12" id="topBody">
-						<div class="row">
-							<div class="col-xs-6" id="redTeamName">
-								
-							</div>
-							<div class="col-xs-6" id="blueTeamName">
-								
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-6" id="redScore">
-								
-							</div>
-							<div class="col-xs-6" id="blueScore">
-								
-							</div>
-						</div>
-						<div class="row">
-						<div class="col-xs-1"></div>
-							<div class="col-xs-4" id="redScoreButtons">
-								<button id="redPlus" class="btn-frame big"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> 
-								<button id="redMinus" class="btn-frame big"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
-							</div>
-							<div class="col-xs-2">
-								<select id="pointValue" class="btn-frame big">
-								  <option value="1" selected="selected">1</option>
-								  <option value="2">2</option>
-								  <option value="3">3</option>
-								  <option value="4">4</option> 
-								  <option value="5">5</option>
-								  <option value="6">6</option>
-								  <option value="8">8</option> 
-								  <option value="10">10</option>
-								</select>
-							</div>
-							<div class="col-xs-4" id="blueScoreButtons">
-								<button id="bluePlus" class="btn-frame big"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> 
-								<button id="blueMinus" class="btn-frame big"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
-							</div>
-							<div class="col-xs-1"></div>
-						</div>
-						<div class="row">
-							<div class="col-xs-6" id="redTeamRoster">
-								
-							</div>
-							<div class="col-xs-6" id="blueTeamRoster">
-					
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-xs-12 buttons" id="topButton">
-						<button id="btnResetBuzzer" class="btn btn-frame btn-lg">Reset Buzzer</button>  
-						<div id="gameCode"></div>
-					</div>
-				</div>
-			</div>
-			<!-----------------BOTTOM---------------------------->
-			<div class="col-xs-12" id="bottom">
-				<div id="gameCode"></div>
-			</div>
-		</div>
+                </div>
+                <button id="btnResetBuzzer" class="btn">Reset Buzzer</button>
+            </div>
+        </div>
+        <div class="bottom" id="bottom">
+            
+        </div>
     </script>
 
 	<script id="btnHostGameInPrgs-template" type="text/template">
-        <h4>Rejoin game in progress: </h4>
-		<button id="btnHostGameInPrgs" class="btn btn-frame btn-lg"></button>
-		<br><br> Or enter new game: <br><br>
+		<button id="btnHostGameInPrgs" class="btn"></button>
     </script>
 
 
