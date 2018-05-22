@@ -216,10 +216,12 @@ h1 {
     justify-content: space-around;
     margin: 5px 50px;
     text-align: center;
+    
 }
 
 .roster {
     flex: 1;
+    opacity: 0.4;
 }
 
 
