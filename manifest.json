@@ -3,7 +3,7 @@
     "name": "Kaplan TPT",
     "icons": [
       {
-        "src":"./img/tpt-icon.png",
+        "src":"/img/tpt-icon.png",
         "sizes": "192x192",
         "type": "image/png"
       }
