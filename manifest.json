@@ -1,0 +1,15 @@
+{
+    "short_name": "TPT",
+    "name": "Kaplan TPT",
+    "icons": [
+      {
+        "src":"/public/img/tpt-icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "tpt.mykaplan.tv",
+    "background_color": "0651d3",
+    "Theme_color": "0651d3",
+    "display": "standalone"
+  }
