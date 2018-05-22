@@ -466,6 +466,10 @@ input[type=text] {
         font-size: 2.8em;
         border-radius: 30px;
     }
+    
+    .bottom span {
+        font-size: 4em;
+    }
 }
 
 @media only screen and (max-width: 360px) {
@@ -530,6 +534,10 @@ input[type=text] {
     
     .btn-buzz {
         font-size: 2.3em;
+    }
+
+    .bottom span {
+        font-size: 4em;
     }
 
 }
