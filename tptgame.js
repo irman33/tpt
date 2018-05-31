@@ -19,6 +19,11 @@ exports.initGame = function(sio, socket){
 
     //gameSocket.emit('connected', { message: "You are connected!" });
 
+    // Server Event
+    gameSocket.on('pong', function(data){
+        console.log("Pong received from client");
+    });
+
     // Host Events
     gameSocket.on('createGame', hostCreateNewGame);
     gameSocket.on('hostRejoinGame', hostRejoinGame);
@@ -59,6 +64,14 @@ function Game (data) {
 	console.log(this);
 }
 
+setTimeout(sendHeartbeat, 8000);
+
+
+
+function sendHeartbeat(){
+    setTimeout(sendHeartbeat, 8000);
+    io.sockets.emit('ping', { beat : 1 });
+}
 
 	/*         HOST FUNCTIONS
 	******************************* */
@@ -306,20 +319,4 @@ function disconnect() {
 		}
 		
 	}
-   };
-
-
-// function updateScoreCsv (gameCode) {
-//     console.log("Red:" + Games[gameCode].redScore +" Blue:" + Games[gameCode].blueScore);
-//     var fileName ="./public/" + gameCode + "_score.csv";
-//     console.log(fileName);
-//     var data = [["RedTeam", "BlueTeam"],[Games[gameCode].redScore,Games[gameCode].blueScore]];
-//     var writer = csvWriter({ headers: ["RedTeam", "BlueTeam"]})
-//     writer.pipe(fs.createWriteStream(fileName));
-//     writer.write([Games[gameCode].redScore, Games[gameCode].blueScore]);
-//     writer.end();
-
-// }
-
-
-
+};

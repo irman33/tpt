@@ -59,7 +59,12 @@ $(function() {
 	 var host = false;
 	
 	 
-	 var socket = io.connect();
+	//  var socket = io.connect();
+	 var socket = io.connect('http://localhost', {
+        'reconnection delay': 500, 
+        'reconnection limit': Infinity, 
+        'max reconnection attempts': Infinity 
+     }););
  
  
  // {"gameCode":115,"mySocketId":"EzpOsXu415gadhW9IsUb","redTeam":"sdfsdfsd","blueTeam":"sdfsdfsdf","role":"host"}
@@ -381,6 +386,14 @@ $(function() {
 			 alert(data.message);
 		 }
 	 });
+
+	 socket.on('ping', function(data){
+		socket.emit('pong', {beat: 1});
+	  });
+
+	socket.on('disconnect', function(){
+		socket.socket.connect();
+	});
  });
  
  
