@@ -52,7 +52,7 @@ $(function() {
 	 var color = {};
 	 color["red"] = "#ee1010";
 	 color["blue"] = "#1b5acf";
-	 color["default"] = 'url("../img/ktp-pattern-community-specific-pc.png") center;';
+	 color["default"] = 'url("../img/ktp-pattern.png") center;';
 	 var gameCode;
 	 var playerName ;
 	 var team;
@@ -60,7 +60,7 @@ $(function() {
 	
 	 
 	//  var socket = io.connect();
-	 var socket = io.connect('http://localhost', {
+	 var socket = io.connect('http://localhost:3000', {
         'reconnection delay': 500, 
         'reconnection limit': Infinity, 
         'max reconnection attempts': Infinity 
@@ -387,6 +387,7 @@ $(function() {
 	 });
 
 	 socket.on('ping', function(data){
+		console.log('Ping received.');
 		socket.emit('pong', {beat: 1});
 	  });
 

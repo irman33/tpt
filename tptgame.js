@@ -46,7 +46,7 @@ exports.initGame = function(sio, socket){
 	gameSocket.on('disconnect', disconnect);
 
 
-    setTimeout(sendHeartbeat.bind(null, gameSocket), 8000);
+    setTimeout(sendHeartbeat, 8000);
 }
 
 var Games = {};
@@ -66,9 +66,10 @@ function Game (data) {
 	console.log(this);
 }
 
-function sendHeartbeat(gameSocket){
+function sendHeartbeat(){
+    console.log(gameSocket);
     setTimeout(sendHeartbeat, 8000);
-    gameSocket.emit('ping', { beat : 1 });
+    io.sockets.emit('ping', { beat : 1 });
 }
 
 	/*         HOST FUNCTIONS
