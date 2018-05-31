@@ -52,7 +52,7 @@ $(function() {
 	 var color = {};
 	 color["red"] = "#ee1010";
 	 color["blue"] = "#1b5acf";
-	 color["default"] = 'url("../img/ktp-pattern-community-specific-pc.png") center;';
+	 color["default"] = 'url("../img/ktp-pattern.png") center;';
 	 var gameCode;
 	 var playerName ;
 	 var team;
