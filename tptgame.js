@@ -66,10 +66,6 @@ function Game (data) {
 	console.log(this);
 }
 
-
-
-
-
 function sendHeartbeat(gameSocket){
     setTimeout(sendHeartbeat, 8000);
     gameSocket.emit('ping', { beat : 1 });
