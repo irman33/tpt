@@ -64,8 +64,7 @@ $(function() {
         'reconnection delay': 500, 
         'reconnection limit': Infinity, 
         'max reconnection attempts': Infinity 
-     }););
- 
+	 }); 
  
  // {"gameCode":115,"mySocketId":"EzpOsXu415gadhW9IsUb","redTeam":"sdfsdfsd","blueTeam":"sdfsdfsdf","role":"host"}
  
