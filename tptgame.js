@@ -70,7 +70,7 @@ setTimeout(sendHeartbeat, 8000);
 
 function sendHeartbeat(){
     setTimeout(sendHeartbeat, 8000);
-    this.emit('ping', { beat : 1 });
+    gameSocket.emit('ping', { beat : 1 });
 }
 
 	/*         HOST FUNCTIONS
