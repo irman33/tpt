@@ -60,7 +60,7 @@ $(function() {
 	
 	 
 	//  var socket = io.connect();
-	 var socket = io.connect('http://localhost:3000', {
+	 var socket = io.connect('tpt.mykaplan.tv', {
         'reconnection delay': 500, 
         'reconnection limit': Infinity, 
         'max reconnection attempts': Infinity 
